@@ -1,11 +1,22 @@
 import React from "react";
-import { BrowserRouter, Route, Routes} from "react-router-dom";
+import { BrowserRouter, createBrowserRouter, Route, RouterProvider, Routes} from "react-router-dom";
 import Login from "../screens/auth/Login";
 import SignUp from "../screens/auth/SignUp";
 import { Typography } from 'antd';
+import { TestScreen } from "../screens/test/TestScreen";
 const { Title } = Typography;
 
 const AuthRouter = ()=>{
+	const routerConfig = createBrowserRouter([
+		{
+			path:'/' ,
+			element:<Login />,
+		},
+		{
+			path:'/sign-up' ,
+			element:<SignUp />,
+		},
+	])
     return (
 		<div className='container-fluid'>
 			<div className='row'>
@@ -28,12 +39,14 @@ const AuthRouter = ()=>{
 				</div>
 
 				<div className='col content-center'>
-					<BrowserRouter>
+					{/* <BrowserRouter>
 						<Routes>
-							<Route path='/login' element={<Login />} />
+							<Route path='/' element={<Login />} />
 							<Route path='/sign-up' element={<SignUp />} />
+							<Route path='/test' element={<TestScreen />} />
 						</Routes>
-					</BrowserRouter>
+					</BrowserRouter> */}
+					<RouterProvider router={routerConfig} />
 				</div>
 			</div>
 		</div>

@@ -3,13 +3,21 @@ import { Button, Card, Checkbox, Form, Input, Space, Typography } from 'antd';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SocialLogin from './components/SocialLogin';
+import hendleAPI from '../../apis/hendleAPI';
 const { Title, Paragraph, Text } = Typography;
 const Login = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isRemember, setIsRemember] = useState(false);
 	const [form] = Form.useForm();
-	const handleLogin = (values: { email: string; password: string }) => {
+	const handleLogin = async(values: { email: string; password: string }) => {
 		console.log(values);
+
+		try {
+			const res = await hendleAPI('/auth/register',values,'post')
+			console.log(res)
+		} catch (error) {
+			console.log(error)
+		}
 	};
 	return (
 		<>
