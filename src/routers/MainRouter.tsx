@@ -1,9 +1,10 @@
-import React from "react";
+/** @format */
 
-const MainRouter = ()=>{
-    return(
-        <div>MainRouter</div>
-    )
-}
+import React from 'react';
+import HomeScreen from '../screens/HomeScreen';
 
-export default MainRouter
+const MainRouter = () => {
+	return <HomeScreen />;
+};
+
+export default MainRouter;

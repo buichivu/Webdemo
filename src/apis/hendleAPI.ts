@@ -1,14 +1,13 @@
-import { url } from "inspector";
-import axiosClient from "./axiosClient";
-
-const hendleAPI = async (
-  url: string,
-  data?: any,
-  method?: "post" | "get" | "put" | "delete"
+/** @format */
+import axiosClient from './axiosClient';
+const handleAPI = async (
+	url: string,
+	data?: any,
+	method?: 'post' | 'put' | 'get' | 'delete'
 ) => {
-  return await axiosClient(url, {
-    method: method ?? "get",
-    data,
-  });
+	return await axiosClient(url, {
+		method: method ?? 'get',
+		data,
+	});
 };
-export default hendleAPI;
+export default handleAPI;

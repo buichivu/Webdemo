@@ -7,16 +7,16 @@ import { TestScreen } from "../screens/test/TestScreen";
 const { Title } = Typography;
 
 const AuthRouter = ()=>{
-	const routerConfig = createBrowserRouter([
-		{
-			path:'/' ,
-			element:<Login />,
-		},
-		{
-			path:'/sign-up' ,
-			element:<SignUp />,
-		},
-	])
+	// const routerConfig = createBrowserRouter([
+	// 	{
+	// 		path:'/' ,
+	// 		element:<Login />,
+	// 	},
+	// 	{
+	// 		path:'/sign-up' ,
+	// 		element:<SignUp />,
+	// 	},
+	// ])
     return (
 		<div className='container-fluid'>
 			<div className='row'>
@@ -39,14 +39,14 @@ const AuthRouter = ()=>{
 				</div>
 
 				<div className='col content-center'>
-					{/* <BrowserRouter>
+					<BrowserRouter>
 						<Routes>
 							<Route path='/' element={<Login />} />
 							<Route path='/sign-up' element={<SignUp />} />
 							<Route path='/test' element={<TestScreen />} />
 						</Routes>
-					</BrowserRouter> */}
-					<RouterProvider router={routerConfig} />
+					</BrowserRouter>
+					{/* <RouterProvider router={routerConfig} /> */}
 				</div>
 			</div>
 		</div>

@@ -1,33 +1,39 @@
 /** @format */
-import { Button, Card, Checkbox, Form, Input, message, Space, Typography } from "antd";
-import React, { useState } from "react";
+
+import { Button, Card, Form, Input, message, Space, Typography } from "antd";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import handleAPI from "../../apis/hendleAPI";
+import { addAuth } from "../../reduxs/reducers/authReducer";
 import SocialLogin from "./components/SocialLogin";
-import hendleAPI from "../../apis/hendleAPI";
+import { localDataNames } from "../../constants/appInfos";
+
 const { Title, Text, Paragraph } = Typography;
 const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isRemember, setIsRemember] = useState(false);
 
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
 
   const handleLogin = async (values: { email: string; password: string }) => {
     const api = "/auth/register";
 
     setIsLoading(true);
-
-
     try {
-      const res = await hendleAPI(api, values, "post");
-      console.log(res);
-    } catch (error:any) {
+      const res: any = await handleAPI(api, values, "post");
+      if (res.data) {
+        message.success(res.message);
+        localStorage.setItem(localDataNames.authData, JSON.stringify(res.data))
+        dispatch(addAuth(res.data));
+      }
+    } catch (error: any) {
       console.log(error);
-      message.error(error.message)
+      message.error(error.message);
     } finally {
       setIsLoading(false);
     }
   };
-
 
   return (
     <>
@@ -37,11 +43,10 @@ const SignUp = () => {
         }}
       >
         <div className="text-center">
-          <Title level={2}>Log in to your account</Title>
-          <Paragraph type="secondary">
-            Welcome back! please enter your details
-          </Paragraph>
+          <Title level={2}>Create an account</Title>
+          <Paragraph type="secondary">Free trial 30 days</Paragraph>
         </div>
+
         <Form
           layout="vertical"
           form={form}
@@ -55,11 +60,11 @@ const SignUp = () => {
             rules={[
               {
                 required: true,
-                message: "Please enter your Name!!!",
+                message: "Please enter your email!!!",
               },
             ]}
           >
-            <Input allowClear />
+            <Input placeholder="Enter your name" allowClear />
           </Form.Item>
           <Form.Item
             name={"email"}
@@ -71,20 +76,31 @@ const SignUp = () => {
               },
             ]}
           >
-            <Input allowClear maxLength={100} type="email" />
+            <Input
+              placeholder="Enter your email"
+              allowClear
+              maxLength={100}
+              type="email"
+            />
           </Form.Item>
           <Form.Item
             name={"password"}
             label="Password"
             rules={[
               {
-                required: true,
-                message: "Please enter your password!!!",
+                // required: true,
+                // message: 'Please enter your password!!!',
               },
               () => ({
                 validator: (_, value) => {
-                  if (value.length < 6) {
-                    return Promise.reject(new Error("this password can 6 key"));
+                  if (!value) {
+                    return Promise.reject(
+                      new Error("Please enter your password!!!")
+                    );
+                  } else if (value.length < 6) {
+                    return Promise.reject(
+                      new Error("Please enter your password!!!")
+                    );
                   } else {
                     return Promise.resolve();
                   }
@@ -92,10 +108,15 @@ const SignUp = () => {
               }),
             ]}
           >
-            <Input.Password placeholder='Creare password' />
+            <Input.Password
+              placeholder="Creare password"
+              maxLength={100}
+              type="email"
+            />
           </Form.Item>
         </Form>
-        <div className="mt-4 mb-3">
+
+        <div className="mt-5 mb-3">
           <Button
             loading={isLoading}
             onClick={() => form.submit()}
@@ -105,13 +126,13 @@ const SignUp = () => {
             }}
             size="large"
           >
-            Sign up
+            Sing up
           </Button>
         </div>
         <SocialLogin />
         <div className="mt-3 text-center">
           <Space>
-            <Text>Already an acount? </Text>
+            <Text type="secondary">Already an acount? </Text>
             <Link to={"/login"}>Login</Link>
           </Space>
         </div>
@@ -119,4 +140,5 @@ const SignUp = () => {
     </>
   );
 };
+
 export default SignUp;
