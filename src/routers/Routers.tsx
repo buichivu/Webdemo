@@ -23,6 +23,10 @@ const Routers = () => {
     const res = localStorage.getItem(localDataNames.authData);
     res && dispatch(addAuth(JSON.parse(res)));
   };
+
+  const handleChecktoken= async ()=>{
+    
+  }
   return isLoading ? <Spin /> : !auth.token ? <AuthRouter /> : <MainRouter />;
 };
 
