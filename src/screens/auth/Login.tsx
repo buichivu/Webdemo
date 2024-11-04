@@ -23,15 +23,17 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const [form] = Form.useForm();
- 
 
   const handleLogin = async (values: { email: string; password: string }) => {
     try {
       const res: any = await handleAPI("/auth/login", values, "post");
 
       message.success(res.message);
-      localStorage.setItem(localDataNames.authData, JSON.stringify(res.data))
       res.data && dispatch(addAuth(res.data));
+
+      if (isRemember) {
+        localStorage.setItem(localDataNames.authData, JSON.stringify(res.data));
+      }
     } catch (error: any) {
       message.error(error.message);
       console.log(error.message);
@@ -114,7 +116,7 @@ const Login = () => {
             Login
           </Button>
         </div>
-        <SocialLogin />
+        <SocialLogin isRemember={isRemember} />
         <div className="mt-3 text-center">
           <Space>
             <Text>Don't have an acount? </Text>
